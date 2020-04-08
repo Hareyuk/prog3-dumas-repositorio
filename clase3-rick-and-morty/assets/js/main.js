@@ -13,12 +13,12 @@ const cardItem = props => {
                 <div class="media-left">
                   <figure class="image is-48x48">
                     <img src="${image}" alt="Placeholder image">
+                    <figcaption>${name}</figcaption>
                   </figure>
                 </div>
                 <div class="media-content">
-                  <h2 class="title is-4">${name}</h2>
-                  <h3 class="subtitle is-4">${species}</h3>
-                  <h4 class="p is-5">${planet}</h4>
+                  <h3 class="subtitle is-4">Especie: ${species}</h3>
+                  <h4 class="p is-5">Planeta: ${planet}</h4>
                 </div>
                 <div class="buttons">
                     <button id="character${id}" class="button is-primary open_modal">Apariciones</button>
@@ -56,6 +56,15 @@ const main = async () => {
           $grid.innerHTML = "<img src='assets/img/loading.gif' alt='loading' class='loading-grid'>";
           const charactersByQuery = await getCharacterByQuery(baseURL, valor);
           appendElements(charactersByQuery.results, true);
+          const $modalOpenArr = document.querySelectorAll('.open_modal');
+          $modalOpenArr.forEach((boton)=>
+          {
+            boton.addEventListener('click', async ()=>
+            {
+                $modal.classList.add("is-active");
+                await showDataModal(boton.id, baseURL);
+            })
+          });
         }
         catch(error)
         {
@@ -80,6 +89,11 @@ const main = async () => {
         $modalClose.addEventListener('click', ()=>{
             $modal.classList.remove('is-active');
         });
+}
+
+const addOpenModal = ()=>
+{
+  const $modalOpenArr = document.querySelectorAll('.open_modal');
 }
 
 const getCharacterByQuery = async (baseUrl, query) =>
@@ -206,7 +220,7 @@ const $grid = document.querySelector('.grid');
 main();
 
 /*
-Ajustar la Card de personaje, mejorando el maquetado y los datos mostrados --> imagen ajustada. Falta ajustar sus datos textuales.
+Ajustar la Card de personaje, mejorando el maquetado y los datos mostrados --> Finalizado.
 
 Agregar el modal, al hacer click en un botón debe desplegar un modal con los datos del planeta y episodios en los que aparece el personaje. Un workaround posible es agregar un atributo data al botón y capturarlo como parametro para la muestra de los datos restantes
 -->HECHO
