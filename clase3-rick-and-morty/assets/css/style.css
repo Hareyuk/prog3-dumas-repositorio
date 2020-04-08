@@ -1,3 +1,8 @@
+.media
+{
+    display: initial;
+}
+
 .background
 {
     background-image: url(../img/background.jpg);
@@ -36,6 +41,7 @@
 .button.is-primary
 {
     background-color: #CC3B8B;
+    margin: 0 auto;
 }
 
 .media
@@ -47,7 +53,32 @@
 {
     margin: 0;
     width: 100%;
+    width: 64px;
+    vertical-align: top;
 }
+
+.tableLocation td
+{
+    vertical-align: middle;
+}
+
+.tableLocation
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tableLocation td:last-child
+{
+    width: 20%;
+}
+
+.tableLocation td:last-child
+{
+    width: 100%;
+}
+
+
 
 .image.is-48x48
 {
@@ -128,7 +159,7 @@
     display: inline-block;
 }
 
-td
+td, th
 {
     border: #CC3B8B 2px solid;
     padding: 0.15em;
@@ -136,4 +167,9 @@ td
 
 table tr:nth-child(odd) td {
  background-color: #FF9B3A;
+}
+
+table
+{
+    width: 100%;
 }
