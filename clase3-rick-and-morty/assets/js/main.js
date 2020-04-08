@@ -33,20 +33,35 @@ const cardItem = props => {
 const main = async () => {
     const baseURL = "https://rickandmortyapi.com/api/";
     //Parte 1: Obtener elementos de API y mostrarlos en el DOM
-    const characters = await getCharacters(baseURL, 1, 20);
-        appendElements(characters, false);
+    try
+    {
+      const characters = await getCharacters(baseURL, 1, 20);
+      appendElements(characters, false);
+    }
+    catch(error)
+    {
+      console.log("¡Error! ", error);
+      $grid.innerHTML = "<p class='error'>Ha ocurrido un error, por favor, intente más tarde.</p>"
+    }
 
     //parte 2: Crear un buscador de personajes
     const $submit = document.querySelector('.handle_search');
     $submit.addEventListener('click', async (event)=>
     {
-        console.log("Click en search");
-        event.preventDefault();
-        const $input = document.querySelector('.input_search');
-        const valor = $input.value;
-        const charactersByQuery = await getCharacterByQuery(baseURL, valor);
-        console.log(charactersByQuery);
-        appendElements(charactersByQuery.results, true);
+        try
+        {
+          event.preventDefault();
+          const $input = document.querySelector('.input_search');
+          const valor = $input.value;
+          const charactersByQuery = await getCharacterByQuery(baseURL, valor);
+          console.log(charactersByQuery);
+          appendElements(charactersByQuery.results, true);
+        }
+        catch(error)
+        {
+          $grid.innerHTML = "<p class='error'>Ha ocurrido un error, por favor, intente más tarde.</p>"
+          console.error("¡Error! ", error);
+        }
     });
 
     //MODAL
@@ -88,8 +103,25 @@ const appendElements = async(list, emptyGrid)=>
 {
     const objHtml = document.querySelector('.grid');
     if(emptyGrid) objHtml.innerHTML = '';
-    list.forEach( (obj) => objHtml.innerHTML += cardItem(obj));
+    if(list != undefined) list.forEach( (obj) => objHtml.innerHTML += cardItem(obj));
+    else objHtml.innerHTML = "<p class='error'>¡Ha buscado un personaje que no existe en la serie!<p>"
 }
 
 const $grid = document.querySelector('.grid');
 main();
+
+/*
+Ajustar la Card de personaje, mejorando el maquetado y los datos mostrados
+
+
+Agregar el modal, al hacer click en un botón debe desplegar un modal con los datos del planeta y episodios en los que aparece el personaje. Un workaround posible es agregar un atributo data al botón y capturarlo como parametro para la muestra de los datos restantes
+
+
+Se deben mejorar los estilos y maquetado de la app en general
+
+
+Agregar una funcionalidad extra a elección del alumno
+
+
+Subir a github antes de la fecha de finalización de la tarea.
+*/
