@@ -36,7 +36,7 @@ const main = async () => {
     try
     {
       const characters = await getCharacters(baseURL, 1, 20);
-      appendElements(characters, false);
+      appendElements(characters, true);
     }
     catch(error)
     {
