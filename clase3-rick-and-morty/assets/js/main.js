@@ -1,5 +1,5 @@
 const cardItem = props => {
-    const {image, name, species, origin} = props;
+    const {id, image, name, species, origin} = props;
     const {name: planet, url} = origin;
   return `<div class="column is-one-quarter">
         <div class="card">
@@ -21,7 +21,7 @@ const cardItem = props => {
                   <h4 class="p is-5">${planet}</h4>
                 </div>
                 <div class="buttons">
-                    <button class="button is-primary open_modal">Primary</button>
+                    <button id="character${id}" class="button is-primary open_modal">Apariciones</button>
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@ const main = async () => {
     }
     catch(error)
     {
-      console.log("¡Error! ", error);
+      console.error("¡Error! ", error);
       $grid.innerHTML = "<p class='error'>Ha ocurrido un error, por favor, intente más tarde.</p>"
     }
 
@@ -54,7 +54,6 @@ const main = async () => {
           const $input = document.querySelector('.input_search');
           const valor = $input.value;
           const charactersByQuery = await getCharacterByQuery(baseURL, valor);
-          console.log(charactersByQuery);
           appendElements(charactersByQuery.results, true);
         }
         catch(error)
@@ -66,14 +65,14 @@ const main = async () => {
 
     //MODAL
         const $modalOpenArr = document.querySelectorAll('.open_modal');
-        console.log($modalOpenArr);
         const $modal = document.querySelector('.modal');
         const $modalClose = document.querySelector('.modal-close');
         $modalOpenArr.forEach((boton)=>
         {
-            boton.addEventListener('click', ()=>
+            boton.addEventListener('click', async ()=>
             {
                 $modal.classList.add("is-active");
+                await showDataModal(boton.id, baseURL);
             })
         });
 
@@ -105,6 +104,93 @@ const appendElements = async(list, emptyGrid)=>
     if(emptyGrid) objHtml.innerHTML = '';
     if(list != undefined) list.forEach( (obj) => objHtml.innerHTML += cardItem(obj));
     else objHtml.innerHTML = "<p class='error'>¡Ha buscado un personaje que no existe en la serie!<p>"
+}
+
+const getNumberIdCharacter = (id)=>
+{
+  return id.substring(9);
+}
+
+const showDataModal = async (characterId, baseUrl)=>
+{
+  const $modal = document.querySelector(".modal-content");
+  $modal.innerHTML = "<img src='assets/img/loading.gif' class='loading'>";
+  const id = getNumberIdCharacter(characterId);
+  try
+  {
+    const datos = await getDataCharacter(`${baseUrl}character/${id}`);
+    const {episode: episodesList}= datos;  
+    const infoEpisodes = await obtainDataEpisodes(episodesList);
+    $modal.innerHTML = await buildHtmlModal(datos, infoEpisodes);
+  }
+  catch(error)
+  {
+    console.error("Error: ", error);
+    $modal.innerHTML = "Ha ocurrido un error, por favor, intente de nuevo más tarde.";
+  }
+}
+
+const getDataCharacter = async (link)=>
+{
+  const response = await fetch(link);
+  const data = response.json();
+  return data;
+}
+
+const obtainDataEpisodes = async (arrayLinks) =>
+{
+  let txt = "";
+    arrayLinks.forEach(async (linkEpisode) => {
+    try
+    {   
+      const response = await fetch(linkEpisode);
+      const dataEpisode = response.json();
+      const {name: nombreEpisodio, air_date, episode} = dataEpisode;
+      txt += `<tr><td>${nombreEpisodio}</td><td>${air_date}</td><td>${episode}</td></tr>`;
+    }
+    catch(error)
+    {
+      console.error('Error: ',error);
+    }
+  });
+  return txt;
+}
+
+const buildHtmlModal = async (props, infoEpisodes) =>
+{
+  const {name,status,gender,origin,image} = props;
+  const {name: planet} = origin;
+ return `<article class="media">
+  <figure class="media-left">
+    <p class="image is-64x64">
+      <img src="${image}">
+    </p>
+  </figure>
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <strong>Nombre: ${name}</strong>
+        <br>
+        Género: ${gender}
+        <br>
+        Planeta de origen: ${planet}
+        <br>
+        Estado de vida: ${status}
+      </p>
+    </div>
+    <table>
+      <caption>
+      Lista de episodios en los que aparece ${name}
+      </caption>
+      <tr>
+        <th>Título del episodio</th>
+        <th>Fecha de emisión</th>
+        <th>Número de episodio</th>
+      </tr>
+      ${infoEpisodes}
+    </table>
+  </div>
+</article>`;
 }
 
 const $grid = document.querySelector('.grid');

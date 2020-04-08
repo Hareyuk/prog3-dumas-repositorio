@@ -51,3 +51,19 @@
 {
     text-align: center;
 }
+
+.error
+{
+    background-color: #FF2F25;
+    border-radius: 15px;
+}
+
+.modal-content
+{
+    background-color: #FFC742;
+}
+
+.loading
+{
+    display: flex;
+}
