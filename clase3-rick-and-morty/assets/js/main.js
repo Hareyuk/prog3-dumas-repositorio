@@ -141,7 +141,7 @@ const showDataModal = async (characterId, baseUrl)=>
     const {episode: episodesList}= datos;  
     //Get data by episode url
     let txtHtml = "";
-    for(let i = 0; i < episodesList.length-1;i++)
+    for(let i = 0; i < episodesList.length;i++)
     {
       const linkEpisode = episodesList[i];
       const propsEpisode = await fetchEpisodeData(linkEpisode);
@@ -220,17 +220,7 @@ const $grid = document.querySelector('.grid');
 main();
 
 /*
-Ajustar la Card de personaje, mejorando el maquetado y los datos mostrados --> Finalizado.
-
-Agregar el modal, al hacer click en un botón debe desplegar un modal con los datos del planeta y episodios en los que aparece el personaje. Un workaround posible es agregar un atributo data al botón y capturarlo como parametro para la muestra de los datos restantes
--->HECHO
-
-
-Se deben mejorar los estilos y maquetado de la app en general --> Diseñada la página propia. Se puede decirse ya hecha.
-
-
 Agregar una funcionalidad extra a elección del alumno --> Sin iniciar
 
-
-Subir a github antes de la fecha de finalización de la tarea.
+CSS de la nueva función --> esperando 
 */
