@@ -53,6 +53,7 @@ const main = async () => {
           event.preventDefault();
           const $input = document.querySelector('.input_search');
           const valor = $input.value;
+          $grid.innerHTML = "<img src='assets/img/loading.gif' alt='loading' class='loading-grid'>";
           const charactersByQuery = await getCharacterByQuery(baseURL, valor);
           appendElements(charactersByQuery.results, true);
         }
@@ -113,21 +114,48 @@ const getNumberIdCharacter = (id)=>
 
 const showDataModal = async (characterId, baseUrl)=>
 {
+  //Loading
   const $modal = document.querySelector(".modal-content");
-  $modal.innerHTML = "<img src='assets/img/loading.gif' class='loading'>";
+  $modal.innerHTML = "<img src='assets/img/loading.gif' alt='loading' class='loading-modal'>";
+  //Get Character ID
   const id = getNumberIdCharacter(characterId);
+  //Get Episodes List
   try
   {
+    //Data by Character Id
     const datos = await getDataCharacter(`${baseUrl}character/${id}`);
     const {episode: episodesList}= datos;  
-    const infoEpisodes = await obtainDataEpisodes(episodesList);
-    $modal.innerHTML = await buildHtmlModal(datos, infoEpisodes);
+    //Get data by episode url
+    let txtHtml = "";
+    for(let i = 0; i < episodesList.length-1;i++)
+    {
+      const linkEpisode = episodesList[i];
+      const propsEpisode = await fetchEpisodeData(linkEpisode);
+      const {name: nombreEpisodio, air_date, episode} = propsEpisode;
+      txtHtml += `<tr><td>${nombreEpisodio}</td><td>${air_date}</td><td>${episode}</td></tr>`;
+    }
+    /*
+    INVESTIGADO DESDE https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
+    episodesList.map(async (linkEpisode) => {
+    const propsEpisode = await fetchEpisodeData(linkEpisode);
+    const {name: nombreEpisodio, air_date, episode} = propsEpisode;
+    txtHtml += `<tr><td>${nombreEpisodio}</td><td>${air_date}</td><td>${episode}</td></tr>`;
+    return linkEpisode;
+  });*/
+    $modal.innerHTML = await buildHtmlModal(datos, txtHtml);
   }
   catch(error)
   {
     console.error("Error: ", error);
     $modal.innerHTML = "Ha ocurrido un error, por favor, intente de nuevo más tarde.";
   }
+}
+
+const fetchEpisodeData = async(url)=>
+{  
+  const response = await fetch(url);
+  const dataEpisode = response.json();
+  return dataEpisode;
 }
 
 const getDataCharacter = async (link)=>
@@ -137,36 +165,17 @@ const getDataCharacter = async (link)=>
   return data;
 }
 
-const obtainDataEpisodes = async (arrayLinks) =>
-{
-  let txt = "";
-    arrayLinks.forEach(async (linkEpisode) => {
-    try
-    {   
-      const response = await fetch(linkEpisode);
-      const dataEpisode = response.json();
-      const {name: nombreEpisodio, air_date, episode} = dataEpisode;
-      txt += `<tr><td>${nombreEpisodio}</td><td>${air_date}</td><td>${episode}</td></tr>`;
-    }
-    catch(error)
-    {
-      console.error('Error: ',error);
-    }
-  });
-  return txt;
-}
-
 const buildHtmlModal = async (props, infoEpisodes) =>
 {
   const {name,status,gender,origin,image} = props;
   const {name: planet} = origin;
  return `<article class="media">
-  <figure class="media-left">
-    <p class="image is-64x64">
-      <img src="${image}">
-    </p>
-  </figure>
   <div class="media-content">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <img src="${image}">
+      </p>
+    </figure>
     <div class="content">
       <p>
         <strong>Nombre: ${name}</strong>
@@ -197,16 +206,16 @@ const $grid = document.querySelector('.grid');
 main();
 
 /*
-Ajustar la Card de personaje, mejorando el maquetado y los datos mostrados
-
+Ajustar la Card de personaje, mejorando el maquetado y los datos mostrados --> imagen ajustada. Falta ajustar sus datos textuales.
 
 Agregar el modal, al hacer click en un botón debe desplegar un modal con los datos del planeta y episodios en los que aparece el personaje. Un workaround posible es agregar un atributo data al botón y capturarlo como parametro para la muestra de los datos restantes
+-->HECHO
 
 
-Se deben mejorar los estilos y maquetado de la app en general
+Se deben mejorar los estilos y maquetado de la app en general --> Diseñada la página propia. Se puede decirse ya hecha.
 
 
-Agregar una funcionalidad extra a elección del alumno
+Agregar una funcionalidad extra a elección del alumno --> Sin iniciar
 
 
 Subir a github antes de la fecha de finalización de la tarea.
