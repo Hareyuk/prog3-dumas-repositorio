@@ -5,7 +5,7 @@ window.initMap = () => {
 
   // The map, centered at Uluru
   const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 13,
+    zoom: 12,
     center: example,
     styles: styles,
     streetViewControl: false,
@@ -44,15 +44,15 @@ const fetchMarkers = async (map) => {
 
 const addMarker = (map, marker) => {
   console.log(marker);
-  const { lat, lng, name, type, description} = marker;
-  const contentString = `<div><h2>${name}</h2><h3>${type}</h3><p>${description}</p></div>`;
+  const { lat, lng, website, name, type, description} = marker;
+  const contentString = `<div><h2>${name}</h2><h3>${type}</h3><p>${description}</p><address><a href='${website}'>${website != "#" ? website : "Sin sitio web"}</a></address></div>`;
   var infowindow = new google.maps.InfoWindow({
     content: contentString,
   });
   const icons = {
-      'Birreria': "assets/img/beergm.png",
-      'Restaurant': "assets/img/vegetable.png",
-      'Barcito Cheto': "assets/img/wine-glass.png"
+      'Juegos': "assets/img/gaming.png",
+      'Articulos': "assets/img/articles.png",
+      'Cartas': "assets/img/cards.png"
   }
 
   const markerItem = new google.maps.Marker({
