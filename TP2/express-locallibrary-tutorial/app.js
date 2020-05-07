@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(cors());
 
-routes = require('./routes/collection')(app);
+routes = require('./routes/tiendajuegos')(app);
 
 app.get('/', function(req, res){
   res.send("Welcome to the machine");
