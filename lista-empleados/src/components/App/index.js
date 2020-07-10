@@ -8,21 +8,23 @@ class App extends React.Component {
     constructor() {
         super()
         //faker.seed(123);
-        faker.locale = "ja";
+        faker.locale = "es";
         const employees = Array.from({ length: 30 }, () => ({
             name: faker.name.findName(),
             sector: faker.name.jobArea(),
             avatar: faker.image.avatar(),
             id: faker.random.uuid(),
-        }))
-        console.log(employees)
-        // const sectors = employees.map(({ sector }) => sector)
-        // const sectorsUnrepeated = new Set(sectors)
-        // const sectorsArray = [...sectorsUnrepeated]
+        }));
+
+        //Obtain list of jobAreas
+        const sectors = employees.map(({sector}) => sector);
+        const sectoresUnrepeated = new Set(sectors);
+        const sectorsArray = [...sectoresUnrepeated];
 
         this.state = {
             employees: employees,
             listBackup: employees,
+            sectors: sectorsArray,
             empleadoDelMes: null
         }
         this.handleEmpleadoMesClick = this.handleEmpleadoMesClick.bind(this) //Linea mounstrosa
@@ -161,8 +163,7 @@ class App extends React.Component {
 }
 
 const Dropdown = props => {
-
-    const dropdownActive = false;
+    const {sectors, dropdownActive, onDropdownActive, onSelectSector} = props;
     return (
         <div>
             <div className={`dropdown ${dropdownActive === true ? 'is-active' : ''}`}>
@@ -171,7 +172,7 @@ const Dropdown = props => {
                         className='button'
                         aria-haspopup='true'
                         aria-controls='dropdown-menu'
-                    >
+                        onClick={onDropdownActive}>
                         <span>Elegir sector</span>
                         <span className='icon is-small'>
                             <i className='fas fa-angle-down' aria-hidden='true' />
@@ -179,8 +180,10 @@ const Dropdown = props => {
                     </button>
                 </div>
                 <div className='dropdown-menu' id='dropdown-menu' role='menu'>
-                    <div className='dropdown-content'>
-
+                    <div class="dropdown-content">
+                        {
+                            sectors.map((job) => <a href="#" class="dropdown-item" onClick={()=>onSelectSector(job)}>{job}</a>)
+                        }
                     </div>
                 </div>
             </div>
