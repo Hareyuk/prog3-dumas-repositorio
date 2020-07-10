@@ -163,7 +163,7 @@ class App extends React.Component {
 }
 
 const Dropdown = props => {
-    const {sectors, dropdownActive, onDropdownActive, onSelectSector} = props;
+    const {sectors, dropdownActive, onDropdownActive, onSelectSector, onRemoveSelectedSector} = props;
     return (
         <div>
             <div className={`dropdown ${dropdownActive === true ? 'is-active' : ''}`}>
@@ -194,6 +194,7 @@ const Dropdown = props => {
                 aria-haspopup='true'
                 aria-controls='dropdown-menu'
                 style={{ marginLeft: '15px' }}
+                onClick={onRemoveSelectedSector}
             >
                 <span>sector elegido</span>
                 <span className='icon is-small'>
