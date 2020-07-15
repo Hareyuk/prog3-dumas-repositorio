@@ -8,7 +8,8 @@ const EmployeeCard = props => {
         handleEmpleadoMesClick,
         empleadoDelMesID,
         key,
-        handleDeleteEmployeeClick
+        handleDeleteEmployeeClick,
+        handleEmployeeEditClick
     } = props
 
     const {name, sector, id, avatar} = employeeData
@@ -24,7 +25,7 @@ const EmployeeCard = props => {
                 <h3 className='is-family-monospace'>{sector}</h3>
             </div>
 
-            <button className='button is-primary'>
+            <button className='button is-primary' onClick={(e)=>handleEmployeeEditClick(key)}>
                 <span className='icon is-small'>
                     <i className='fas fa-edit' />
                 </span>

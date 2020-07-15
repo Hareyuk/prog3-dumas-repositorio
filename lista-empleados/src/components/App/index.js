@@ -25,7 +25,8 @@ class App extends React.Component {
             employees: employees,
             listBackup: employees,
             sectors: sectorsArray,
-            empleadoDelMes: null
+            empleadoDelMes: null,
+            modalActive: false
         }
         this.handleEmpleadoMesClick = this.handleEmpleadoMesClick.bind(this) //Linea mounstrosa
         this.handleAddEmployeeSubmit = this.handleAddEmployeeSubmit.bind(this) //Linea mounstrosa
@@ -45,6 +46,16 @@ class App extends React.Component {
     {
         const {value} = event.target;
         this.setState({ employeeName: value});
+    }
+
+    handleEmployeeEditClick = (id) =>
+    {
+         this.setState({modalActive: true});
+    }
+
+    handleModalClose = (event) =>
+    {
+         this.setState({modalActive: false});
     }
 
     //nuevo clase 2 de julio
@@ -132,7 +143,7 @@ class App extends React.Component {
                         <div className='modal-card'>
                             <header className='modal-card-head'>
                                 <p className='modal-card-title'>Modal title</p>
-                                <button className='delete' aria-label='close' />
+                                <button className='delete' aria-label='close' onClick={this.handleModalClose}/>
                             </header>
                             <section className='modal-card-body'>
                                 <form className='form-add-employee'>
@@ -142,6 +153,12 @@ class App extends React.Component {
                                     />
                                 </form>
                             </section>
+                            <button className='button is-primary' onClick={(id)=>this.handleEmployeeUpdateClick(id)}>
+                            <span className='icon is-small'>
+                                <i className='fas fa-edit' />
+                            </span>
+                            <span>Editar</span>
+                            </button>
                         </div>
                     </div>
                 )}
@@ -149,6 +166,7 @@ class App extends React.Component {
                 {
                     this.state.employees.map((employee) =>
                         <EmployeeCard
+                        handleEmployeeEditClick={this.handleEmployeeEditClick}
                         handleDeleteEmployeeClick={this.handleDeleteEmployeeClick} 
                         employeeData={employee} 
                         key={employee.id} 
