@@ -50,7 +50,23 @@ class App extends React.Component {
 
     handleEmployeeEditClick = (id) =>
     {
-         this.setState({modalActive: true});
+        const {employees} = this.state;
+        const employee = employees.find((employee)=>employee.id === id);
+         this.setState({modalActive: true, employeeToEdit: employee.name});
+    }
+
+    handleEmployeeUpdateClick = (id) =>
+    {
+        const newName = "Aja";
+        const {newEmployees} = this.state;
+        newEmployees.forEach((employee)=>
+        {
+            if(employee.id == id)
+            {
+                employee.name = newName;
+            }
+        });
+        this.setState({employees: newEmployees});
     }
 
     handleModalClose = (event) =>
@@ -150,6 +166,7 @@ class App extends React.Component {
                                     <input
                                         className='input'
                                         type='text'
+                                        value={employeeToEdit}
                                     />
                                 </form>
                             </section>
@@ -198,9 +215,9 @@ const Dropdown = props => {
                     </button>
                 </div>
                 <div className='dropdown-menu' id='dropdown-menu' role='menu'>
-                    <div class="dropdown-content">
+                    <div className="dropdown-content">
                         {
-                            sectors.map((job) => <a href="#" class="dropdown-item" onClick={()=>onSelectSector(job)}>{job}</a>)
+                            sectors.map((job) => <a href="#" className="dropdown-item" onClick={()=>onSelectSector(job)}>{job}</a>)
                         }
                     </div>
                 </div>
