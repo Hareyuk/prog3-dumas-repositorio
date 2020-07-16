@@ -26,7 +26,9 @@ class App extends React.Component {
             listBackup: employees,
             sectors: sectorsArray,
             empleadoDelMes: null,
-            modalActive: false
+            modalActive: false,
+            employeeToEdit: null,
+            idToEdit: null
         }
         this.handleEmpleadoMesClick = this.handleEmpleadoMesClick.bind(this) //Linea mounstrosa
         this.handleAddEmployeeSubmit = this.handleAddEmployeeSubmit.bind(this) //Linea mounstrosa
@@ -41,6 +43,12 @@ class App extends React.Component {
         this.setState({employees: newList});
     }
 
+    handleEditEmployeeChange = event =>
+    {
+        const {value} = event.target;
+        this.setState({employeeToEdit: value});
+    }
+
     //nuevo clase 2 de julio
     handleAddEmployeeChange = event => 
     {
@@ -52,21 +60,21 @@ class App extends React.Component {
     {
         const {employees} = this.state;
         const employee = employees.find((employee)=>employee.id === id);
-         this.setState({modalActive: true, employeeToEdit: employee.name});
+         this.setState({modalActive: true, employeeToEdit: employee.name, idToEdit: employee.id});
     }
 
-    handleEmployeeUpdateClick = (id) =>
+    handleEmployeeUpdateClick = () =>
     {
-        const newName = "Aja";
-        const {newEmployees} = this.state;
-        newEmployees.forEach((employee)=>
+        const {employeeToEdit, idToEdit} = this.state;
+        const {employees} = this.state;
+        employees.forEach((employee)=>
         {
-            if(employee.id == id)
+            if(employee.id == idToEdit)
             {
-                employee.name = newName;
+                employee.name = employeeToEdit;
             }
         });
-        this.setState({employees: newEmployees});
+        this.setState({employees: employees, modalActive: false});
     }
 
     handleModalClose = (event) =>
@@ -136,6 +144,7 @@ class App extends React.Component {
             selectedSector,
             modalActive,
             employeeToEdit,
+            idToEdit
         } = this.state
 
         return (
@@ -166,11 +175,12 @@ class App extends React.Component {
                                     <input
                                         className='input'
                                         type='text'
-                                        value={employeeToEdit}
+                                        value={this.state.employeeToEdit}
+                                        onChange={this.handleEditEmployeeChange}
                                     />
                                 </form>
                             </section>
-                            <button className='button is-primary' onClick={(id)=>this.handleEmployeeUpdateClick(id)}>
+                            <button className='button is-primary' onClick={this.handleEmployeeUpdateClick}>
                             <span className='icon is-small'>
                                 <i className='fas fa-edit' />
                             </span>
