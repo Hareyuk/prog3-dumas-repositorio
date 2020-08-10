@@ -1,4 +1,5 @@
 import React from 'react';
+import '../Form/index.css';
 const Form = props =>
 {
     const {newEmployee, handleAddEmployeeSubmit, handleAddEmployeeChange} = props;

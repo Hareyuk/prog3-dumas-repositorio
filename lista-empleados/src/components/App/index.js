@@ -22,6 +22,7 @@ class App extends React.Component {
         const sectorsArray = [...sectoresUnrepeated];
 
         this.state = {
+            selectedSector: '',
             employees: employees,
             listBackup: employees,
             sectors: sectorsArray,
@@ -208,7 +209,7 @@ class App extends React.Component {
 }
 
 const Dropdown = props => {
-    const {sectors, dropdownActive, onDropdownActive, onSelectSector, onRemoveSelectedSector} = props;
+    const {sectors, dropdownActive, onDropdownActive, onSelectSector, onRemoveSelectedSector, selectedSector} = props;
     return (
         <div>
             <div className={`dropdown ${dropdownActive === true ? 'is-active' : ''}`}>
@@ -234,18 +235,18 @@ const Dropdown = props => {
             </div>
 
 
-            <button
+            {selectedSector != "" && (<button
                 className='button'
                 aria-haspopup='true'
                 aria-controls='dropdown-menu'
                 style={{ marginLeft: '15px' }}
                 onClick={onRemoveSelectedSector}
             >
-                <span>sector elegido</span>
+                <span>{selectedSector}</span>
                 <span className='icon is-small'>
                     <i className='fas fa-trash-alt' aria-hidden='true' />
                 </span>
-            </button>
+            </button>)}
 
         </div>
     )

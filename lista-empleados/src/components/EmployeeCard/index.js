@@ -1,6 +1,7 @@
 import React from 'react';
 import Avatar from '../Avatar'
 import BtnEmpleadoDelMes from '../BtnEmpleadoDelMes';
+import '../EmployeeCard/index.css';
 
 const EmployeeCard = props => {
     const {

@@ -1,0 +1,36 @@
+.employee-card
+{
+    background-color: #5d4e73;
+}
+
+.button.is-primary
+{
+    background-color: #d048c2;
+}
+
+.button.is-primary:hover
+{
+    background-color: #ff6ef1;
+}
+
+.button.is-danger.is-outlined
+{
+    border: none;
+    background-color: rgb(211, 60, 60);
+    color: white;
+}
+
+.button.is-info
+{
+    background-color: #371d5d;
+}
+
+.button.is-info:hover
+{
+    background-color: #633aa0;
+}
+
+.bg-yellow
+{
+    background-color: #9369d0;
+}
