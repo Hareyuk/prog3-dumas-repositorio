@@ -46,4 +46,73 @@
 .container
 {
   padding: 1em 0;
+  z-index: 1;
+}
+
+.backgroundCircle
+{
+  mix-blend-mode: hard-light;
+  width: 150%;
+  height: 200%;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  animation-name: brillo-parpadeando;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  transform: translate(-50%,-50%);
+  background: rgba(27,26,30,0);
+  background: -moz-radial-gradient(center, ellipse cover, rgba(27,26,30,0) 0%, rgba(135,121,164,0) 64%, rgba(196,174,239,1) 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(27,26,30,0)), color-stop(64%, rgba(135,121,164,0)), color-stop(100%, rgba(196,174,239,1)));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(27,26,30,0) 0%, rgba(135,121,164,0) 64%, rgba(196,174,239,1) 100%);
+  background: -o-radial-gradient(center, ellipse cover, rgba(27,26,30,0) 0%, rgba(135,121,164,0) 64%, rgba(196,174,239,1) 100%);
+  background: -ms-radial-gradient(center, ellipse cover, rgba(27,26,30,0) 0%, rgba(135,121,164,0) 64%, rgba(196,174,239,1) 100%);
+  background: radial-gradient(ellipse at center, rgba(27,26,30,0) 0%, rgba(135,121,164,0) 64%, rgba(196,174,239,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b1a1e', endColorstr='#c4aeef', GradientType=1 );
+}
+
+@keyframes brillo-parpadeando
+{
+  0%
+  {
+    filter: brightness(1);
+    top: 0;
+  }
+
+  20%
+  {
+    filter: brightness(1.5);
+  }
+  
+  25%
+  {
+    filter: brightness(0.6);
+    top:20%;
+  }
+  30%
+  {
+    filter: brightness(0.9);
+  }
+  40%
+  {
+    filter: brightness(0.5);
+  }
+  70%
+  {
+    filter: brightness(1.8);
+  }
+  90%
+  {
+    filter: brightness(1.2);
+  }
+
+  95%
+  {
+    filter: brightness(1.5);
+  }
+  100%
+  {
+    filter: brightness(1);
+    top: 0;
+  }
 }

@@ -149,60 +149,65 @@ class App extends React.Component {
         } = this.state
 
         return (
-            <div className='container'>
-                <h1 className='is-size-1'>Lista de Empleados</h1>
+            <div>
+                <div className='backgroundCircle'>
 
-                <Form handleAddEmployeeChange={this.handleAddEmployeeChange} handleAddEmployeeSubmit={this.handleAddEmployeeSubmit} newEmployee={this.state.employeeName}/>
+                </div>
+                <div className='container'>
+                    <h1 className='is-size-1'>Lista de Empleados</h1>
 
-                <Dropdown 
-                    sectors={sectors}
-                    dropdownActive={dropdownActive}
-                    selectedSector={selectedSector}
-                    onSelectSector={this.handleSelectSector}
-                    onDropdownActive={this.handleDropdownActive}
-                    onRemoveSelectedSector={this.handleRemoveSelectedSector}
-                />
+                    <Form handleAddEmployeeChange={this.handleAddEmployeeChange} handleAddEmployeeSubmit={this.handleAddEmployeeSubmit} newEmployee={this.state.employeeName}/>
 
-                {modalActive && (
-                    <div className='modal is-active'>
-                        <div className='modal-background' />
-                        <div className='modal-card'>
-                            <header className='modal-card-head'>
-                                <p className='modal-card-title'>Modal title</p>
-                                <button className='delete' aria-label='close' onClick={this.handleModalClose}/>
-                            </header>
-                            <section className='modal-card-body'>
-                                <form className='form-add-employee'>
-                                    <input
-                                        className='input'
-                                        type='text'
-                                        value={this.state.employeeToEdit}
-                                        onChange={this.handleEditEmployeeChange}
-                                    />
-                                </form>
-                            </section>
-                            <button className='button is-primary' onClick={this.handleEmployeeUpdateClick}>
-                            <span className='icon is-small'>
-                                <i className='fas fa-edit' />
-                            </span>
-                            <span>Editar</span>
-                            </button>
+                    <Dropdown 
+                        sectors={sectors}
+                        dropdownActive={dropdownActive}
+                        selectedSector={selectedSector}
+                        onSelectSector={this.handleSelectSector}
+                        onDropdownActive={this.handleDropdownActive}
+                        onRemoveSelectedSector={this.handleRemoveSelectedSector}
+                    />
+
+                    {modalActive && (
+                        <div className='modal is-active'>
+                            <div className='modal-background' />
+                            <div className='modal-card'>
+                                <header className='modal-card-head'>
+                                    <p className='modal-card-title'>Modal title</p>
+                                    <button className='delete' aria-label='close' onClick={this.handleModalClose}/>
+                                </header>
+                                <section className='modal-card-body'>
+                                    <form className='form-add-employee'>
+                                        <input
+                                            className='input'
+                                            type='text'
+                                            value={this.state.employeeToEdit}
+                                            onChange={this.handleEditEmployeeChange}
+                                        />
+                                    </form>
+                                </section>
+                                <button className='button is-primary' onClick={this.handleEmployeeUpdateClick}>
+                                <span className='icon is-small'>
+                                    <i className='fas fa-edit' />
+                                </span>
+                                <span>Editar</span>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {
-                    this.state.employees.map((employee) =>
-                        <EmployeeCard
-                        handleEmployeeEditClick={this.handleEmployeeEditClick}
-                        handleDeleteEmployeeClick={this.handleDeleteEmployeeClick} 
-                        employeeData={employee} 
-                        key={employee.id} 
-                        handleEmpleadoMesClick={this.handleEmpleadoMesClick} 
-                        empleadoDelMesID = {this.state.empleadoDelMes}
-                        />
-                    )
-                }
+                    {
+                        this.state.employees.map((employee) =>
+                            <EmployeeCard
+                            handleEmployeeEditClick={this.handleEmployeeEditClick}
+                            handleDeleteEmployeeClick={this.handleDeleteEmployeeClick} 
+                            employeeData={employee} 
+                            key={employee.id} 
+                            handleEmpleadoMesClick={this.handleEmpleadoMesClick} 
+                            empleadoDelMesID = {this.state.empleadoDelMes}
+                            />
+                        )
+                    }
+                </div>
             </div>
         )
     }
